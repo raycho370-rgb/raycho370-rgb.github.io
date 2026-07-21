@@ -54,6 +54,13 @@
 - Fallback 검증: animation name `rainbow-flow`, text clip 확인, SC 로고 0개, phrase 18개, Scholar 링크 유지, 375/768/1440px overflow 0, console errors 0.
 - 상태: `DEPLOY_APPROVAL_REQUIRED`; 현재 로컬 변경은 commit·push·재배포 전.
 
+## Step 10 최종 배포
+
+- Commit/push: `65ecd71`를 `main`에 push.
+- Pages: `built`, 실제 URL HTTP 200.
+- 배포본 확인: `rainbow-headline` 반영, 상단 `brand-mark` 제거, phrase 배경 유지.
+- 최종 상태: `DEPLOYED`.
+
 ## 추가 요청 - 좌측 상단 SC 로고 제거
 
 - Act: `index.html`의 상단 `brand-mark`만 제거하고 `styles.css`의 미사용 로고 스타일을 삭제.

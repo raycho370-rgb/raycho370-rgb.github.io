@@ -20,6 +20,7 @@
           <a href="#experience">Experience</a>
           <a href="#skills">Skills</a>
           <a href="#education">Education</a>
+          <a href="#contact">Contact</a>
           <a class="nav-game" href="#games">Games <span aria-hidden="true">↗</span></a>
         </nav>
       </header>
@@ -106,6 +107,17 @@
           <div class="research-note"><span class="research-icon" aria-hidden="true">✦</span><p><strong>Publications &amp; patents</strong><br />10+ IEEE journal papers and international conference publications, multiple U.S. patents, and technical book chapter contributions.</p></div>
         </section>
 
+        <section class="content-section contact-section" id="contact">
+          <div class="section-heading compact-heading">
+            <p class="eyebrow">Contact</p>
+            <h2>Start with a thoughtful question.</h2>
+          </div>
+          <div class="contact-card">
+            <p>For conversations about AI platform engineering, intelligent cloud systems, or applied Vision AI, please reach out through the contact channel selected for this site.</p>
+            <p class="contact-note">Public contact details and social links: <strong>[사람 확인 필요]</strong></p>
+          </div>
+        </section>
+
         <section class="games-section" id="games">
           <div class="games-intro">
             <p class="eyebrow">Games</p>
@@ -114,8 +126,9 @@
             <div class="game-rules"><span>Arrow keys / WASD</span><span>Touch controls</span><span>Random enemy</span></div>
           </div>
           <div class="game-card">
-            <div class="game-header"><div><span class="game-status" id="game-status">Ready when you are</span><h3>Signal Runner</h3></div><div class="score-box"><span>Score</span><strong id="score">0</strong></div></div>
+            <div class="game-header"><div><span class="game-status" id="game-status" aria-live="polite">Ready when you are</span><h3>Signal Runner</h3></div><div class="score-stats"><div class="score-box"><span>Score</span><strong id="score">0</strong></div><div class="score-box"><span>Best</span><strong id="high-score">0</strong></div></div></div>
             <div class="canvas-wrap"><canvas id="game-canvas" width="400" height="400" aria-label="Signal Runner game board"></canvas><div class="game-overlay" id="game-overlay"><p>Navigate the grid.<br />Keep the signal alive.</p><button class="button button-primary" id="start-button" type="button">Start game</button></div></div>
+            <div class="game-actions"><button class="game-action" id="pause-button" type="button" disabled>Pause</button><button class="game-action" id="restart-button" type="button">Restart</button></div>
             <div class="game-controls" aria-label="Touch game controls">
               <button type="button" data-direction="up" aria-label="Move up">↑</button>
               <div><button type="button" data-direction="left" aria-label="Move left">←</button><button type="button" data-direction="down" aria-label="Move down">↓</button><button type="button" data-direction="right" aria-label="Move right">→</button></div>

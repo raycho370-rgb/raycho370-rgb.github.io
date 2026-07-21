@@ -3,17 +3,44 @@
   const context = canvas.getContext('2d');
   const overlay = document.querySelector('#game-overlay');
   const startButton = document.querySelector('#start-button');
+  const pauseButton = document.querySelector('#pause-button');
+  const restartButton = document.querySelector('#restart-button');
   const scoreElement = document.querySelector('#score');
+  const highScoreElement = document.querySelector('#high-score');
   const statusElement = document.querySelector('#game-status');
   const gridSize = 20;
   const cellSize = canvas.width / gridSize;
+  const highScoreKey = 'signal-runner-high-score';
   const directions = { up: { x: 0, y: -1 }, down: { x: 0, y: 1 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 } };
-  let snake, food, enemy, direction, queuedDirection, score, gameTimer, isRunning;
+  let snake = [];
+  let food = { x: 0, y: 0 };
+  let enemy = { x: 4, y: 4 };
+  let direction = directions.right;
+  let queuedDirection = direction;
+  let score = 0;
+  let highScore = readHighScore();
+  let gameTimer = null;
+  let isRunning = false;
+  let isPaused = false;
+
+  function readHighScore() {
+    try { return Number.parseInt(window.localStorage.getItem(highScoreKey) || '0', 10) || 0; } catch { return 0; }
+  }
+
+  function writeHighScore() {
+    try { window.localStorage.setItem(highScoreKey, String(highScore)); } catch { /* Storage can be unavailable in private contexts. */ }
+  }
 
   const sameCell = (a, b) => a.x === b.x && a.y === b.y;
   const randomCell = () => ({ x: Math.floor(Math.random() * gridSize), y: Math.floor(Math.random() * gridSize) });
   const occupied = (cell) => snake.some((segment) => sameCell(segment, cell)) || sameCell(enemy, cell);
   const placeFood = () => { let next; do { next = randomCell(); } while (occupied(next)); return next; };
+  const stopTimer = () => { if (gameTimer !== null) { clearInterval(gameTimer); gameTimer = null; } };
+
+  function updateScore() {
+    scoreElement.textContent = score;
+    highScoreElement.textContent = highScore;
+  }
 
   function resetGame() {
     snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
@@ -22,31 +49,55 @@
     enemy = { x: 4, y: 4 };
     food = placeFood();
     score = 0;
-    scoreElement.textContent = score;
+    updateScore();
     draw();
   }
 
   function startGame() {
+    stopTimer();
     resetGame();
     isRunning = true;
+    isPaused = false;
     overlay.classList.add('is-hidden');
+    pauseButton.disabled = false;
+    pauseButton.textContent = 'Pause';
+    startButton.textContent = 'Start game';
     statusElement.textContent = 'Signal is live';
-    clearInterval(gameTimer);
     gameTimer = setInterval(tick, 150);
   }
 
   function endGame(message = 'Connection lost') {
+    stopTimer();
     isRunning = false;
-    clearInterval(gameTimer);
+    isPaused = false;
+    pauseButton.disabled = true;
+    pauseButton.textContent = 'Pause';
+    if (score > highScore) { highScore = score; writeHighScore(); updateScore(); }
     statusElement.textContent = message;
     overlay.querySelector('p').innerHTML = `${message}.<br />Final score: ${score}`;
     startButton.textContent = 'Play again';
     overlay.classList.remove('is-hidden');
   }
 
+  function togglePause() {
+    if (!isRunning) return;
+    if (isPaused) {
+      isPaused = false;
+      pauseButton.textContent = 'Pause';
+      statusElement.textContent = 'Signal is live';
+      gameTimer = setInterval(tick, 150);
+    } else {
+      isPaused = true;
+      stopTimer();
+      pauseButton.textContent = 'Resume';
+      statusElement.textContent = 'Paused';
+    }
+  }
+
   function setDirection(nextDirection) {
     const next = directions[nextDirection];
-    if (!next || (next.x + direction.x === 0 && next.y + direction.y === 0)) return;
+    const active = queuedDirection || direction;
+    if (!next || (next.x + active.x === 0 && next.y + active.y === 0)) return;
     queuedDirection = next;
   }
 
@@ -61,15 +112,17 @@
   }
 
   function tick() {
+    if (!isRunning || isPaused) return;
     direction = queuedDirection;
     const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
     const hitWall = head.x < 0 || head.x >= gridSize || head.y < 0 || head.y >= gridSize;
     const hitSelf = snake.some((segment) => sameCell(segment, head));
     if (hitWall || hitSelf || sameCell(head, enemy)) { endGame(sameCell(head, enemy) ? 'The scout found you' : 'Signal lost'); return; }
     snake.unshift(head);
-    if (sameCell(head, food)) { score += 10; scoreElement.textContent = score; food = placeFood(); } else snake.pop();
+    if (sameCell(head, food)) { score += 10; food = placeFood(); } else snake.pop();
     moveEnemy();
     if (sameCell(snake[0], enemy)) { endGame('The scout found you'); return; }
+    updateScore();
     draw();
   }
 
@@ -96,9 +149,12 @@
 
   document.addEventListener('keydown', (event) => {
     const keyMap = { ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down', ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' };
-    if (keyMap[event.key]) { event.preventDefault(); if (!isRunning) startGame(); setDirection(keyMap[event.key]); }
+    if (event.key === ' ' || event.key === 'p' || event.key === 'P') { event.preventDefault(); togglePause(); return; }
+    if (keyMap[event.key]) { event.preventDefault(); if (!isRunning && !isPaused) startGame(); if (isRunning && !isPaused) setDirection(keyMap[event.key]); }
   });
-  document.querySelectorAll('[data-direction]').forEach((button) => button.addEventListener('click', () => { if (!isRunning) startGame(); setDirection(button.dataset.direction); }));
+  document.querySelectorAll('[data-direction]').forEach((button) => button.addEventListener('click', () => { if (!isRunning && !isPaused) startGame(); if (isRunning && !isPaused) setDirection(button.dataset.direction); }));
   startButton.addEventListener('click', startGame);
+  pauseButton.addEventListener('click', togglePause);
+  restartButton.addEventListener('click', startGame);
   resetGame();
 })();

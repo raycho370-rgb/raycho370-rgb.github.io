@@ -9,52 +9,49 @@
 
 ## Goal
 
-정적 HTML/CSS/JavaScript로 반응형 프로페셔널 웹사이트와 Games 지렁이 게임을 완성하고 승인 후 GitHub Pages에 배포한다.
+정적 HTML/CSS/JavaScript 반응형 프로페셔널 웹사이트와 Games 지렁이 게임을 완성하고 승인 후 GitHub Pages에 배포한다.
 
 ## Scope / Out of Scope
 
-- Scope: 프로필·경력·기술·학력, 반응형 UI, Games 메뉴, 키보드·터치 게임, 랜덤 적, Pages 배포.
-- Out of Scope: 백엔드, 임의의 외부 서비스·프레임워크, 미승인 개인정보 공개, 테스트 완화, 승인 전 push·배포.
+- Scope: Home/About/Contact, 확인 가능한 Experience/Research, 반응형 내비게이션, Games, 키보드·WASD·터치 게임, 랜덤 적, Pages.
+- Out of Scope: 백엔드, 임의 외부 서비스·프레임워크, 미승인 개인정보 공개, 테스트 완화.
 
 ## Execution
 
-- Mode: `CODEX_WORKER + CLAUDE_VERIFIER` 전환 대기; Claude 실행 불가 시 `CODEX_FALLBACK`.
-- Claude model: CLI `2.1.216`, 로그인 확인됨; 실제 Sonnet 모델명은 아직 미확인, Sonnet 5 사용 가능 여부 미확인.
-- Last test: `PASS` (Codex 로컬 문법·브라우저·반응형 확인); Claude baseline은 미실행.
+- Mode: `CODEX_FALLBACK` (Claude CLI 외부 검증 호출은 정책상 차단됨).
+- Claude model: CLI `2.1.216` 로그인 확인; 실제 Sonnet 모델명 미확인, Sonnet 5 미확인.
+- Last test: `PASS` (fallback 브라우저·375/768/1440px·게임·HTTP·문법); Claude Verifier 미실행.
 
 ## Current State
 
-- 상태: `READY`.
-- 완료 루프: Step 1 분석, Step 2 AORR 상태 머신, Step 3 Self-Correcting TDD 설계.
-- 다음 루프: 실제 Claude Sonnet 모델 확인 후 Verifier 기준선 테스트 실행.
-- Retry: 0회.
-- fingerprint: 없음.
-- blocker: 실제 Sonnet 모델명 및 사용 가능 여부 미확인.
-- 마지막 정상 commit·URL: 정상 commit 없음; 배포 전이며 Pages target URL만 설정됨.
+- 상태: `DEPLOY_APPROVAL_REQUIRED`.
+- 완료 루프: Step 1-6, Step 7 Loop 1 Contact 및 Loop 2 게임 보완.
+- 다음 루프: 사용자 승인 후 토큰 추적 확인, commit·push·Pages 재배포·배포본 회귀 검증.
+- Retry: 0회; fingerprint: 없음.
+- blocker: Claude Verifier 외부 실행 정책 차단; 새 변경은 아직 commit하지 않음.
+- 마지막 정상 commit·URL: `259be93` / https://raycho370-rgb.github.io (이전 배포본).
 
 ## Acceptance
 
-HTML 구조·내부 링크, 375/768/1440px 반응형, JavaScript 무오류, 게임 핵심·키보드·터치·랜덤 적, 로컬 HTTP, GitHub Pages 호환성, Claude 전체 검증 통과 후 승인된 배포를 충족한다.
+HTML·내부 링크·상대 경로, 375/768/1440px 반응형, JS 무오류, 게임 시작·이동·음식·성장·점수·충돌·게임오버·pause·restart·high score·키보드·터치·랜덤 적, 로컬 HTTP, Pages 호환성, Claude 전체 검증을 충족한다.
 
 ## Guardrails
 
 - 확인되지 않은 개인 정보를 생성하거나 기존 콘텐츠를 임의 삭제하지 않는다.
-- 테스트를 삭제·완화하지 않으며 대규모 재작성하지 않는다.
-- 백엔드·외부 서비스·프레임워크를 임의 추가하지 않는다.
+- 테스트 삭제·완화, 대규모 재작성, 백엔드·외부 서비스·프레임워크 임의 추가를 금지한다.
 - 토큰을 출력·로그·코드·문서·Git에 저장하지 않는다.
 - 한 Retry에서는 원인 하나와 최소 관련 파일만 수정한다.
-- Claude가 실행한 테스트를 Codex가 중복 실행하지 않는다.
 - 상세 실행 기록은 `AORR_LOG.md`에 저장한다.
 
 ## Retry / HITL
 
-- 오류당 최대 3회; 동일 fingerprint 2회면 중지하고 `BLOCKED` 또는 `HITL_REQUIRED`로 전환한다.
-- 공개 범위, 게임 규칙, Claude 모델, GitHub 인증·설정, 배포 승인 또는 원인 불명 오류는 `HITL_REQUIRED`로 둔다.
+- 오류당 최대 3회; 동일 fingerprint 2회면 `BLOCKED` 또는 `HITL_REQUIRED`로 중지한다.
+- 공개 범위, 게임 규칙, Claude 모델·외부 전송, GitHub 인증, commit·push·배포는 사람 승인 대상이다.
 
 ## Recent Loops
 
 | Loop | 상태 | 실행 모드·모델 | 변경 파일 | 테스트 결과 | Retry | 다음 작업 |
 |---|---|---|---|---|---|---|
-| Step 1 | 완료 | Codex 분석 | `STEP1_ANALYSIS.md` | 실행 안 함 | 0 | AORR 설계 |
-| Step 2 | 완료 | Codex 문서 설계 | `AORR.md` | 실행 안 함 | 0 | TDD 설계 |
-| Step 3 | 완료 | Codex 문서 설계; Claude CLI 2.1.216 로그인 확인 | `AORR.md`, `MEMORY.md` | 테스트 실행 안 함; 모델 확인 대기 | 0 | Sonnet 모델 확인 및 Claude baseline |
+| Step 5 | 완료 | Codex + GitHub CLI | `.git`, `.gitignore`, README 병합 | Pages built·HTTP 200 | 0 | 기능 보완 |
+| Step 6 | 완료 | Codex 문서 설계 | `AUTOMATION_READINESS.md` | 실행 안 함 | 0 | 전체 구현 |
+| Step 7 | 승인 대기 | `CODEX_FALLBACK`·Claude 미실행 | `index.html`, `styles.css`, `script.js`, `AORR_LOG.md`, `MEMORY.md` | fallback PASS; 배포 전 | 0 | 사용자 승인 후 배포 |

@@ -166,6 +166,13 @@
     rain.appendChild(fragment);
   }
 
+  function randomizeRainbowDirection() {
+    const headline = document.querySelector('.rainbow-headline');
+    if (!headline || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const directions = ['rainbow-x', 'rainbow-y', 'rainbow-diagonal', 'rainbow-spin'];
+    headline.classList.add(directions[Math.floor(Math.random() * directions.length)]);
+  }
+
   document.addEventListener('keydown', (event) => {
     const keyMap = { ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down', ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' };
     if (event.key === ' ' || event.key === 'p' || event.key === 'P') { event.preventDefault(); togglePause(); return; }
@@ -177,4 +184,5 @@
   restartButton.addEventListener('click', startGame);
   resetGame();
   createLetterRain();
+  randomizeRainbowDirection();
 })();

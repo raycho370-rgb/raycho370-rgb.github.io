@@ -28,3 +28,13 @@
 - 상태: `DEPLOY_APPROVAL_REQUIRED`.
 - 미수행: 새 변경에 대한 commit, push, GitHub Pages 배포, 배포본 회귀 검증.
 - 다음 승인 후 작업: 비밀정보 추적 확인 → commit → push → Pages 상태·HTTP 200 → 배포본 회귀 검증.
+
+## 배포 완료
+
+- 승인: 사용자 명시 요청으로 진행.
+- 보안 확인: tracked sensitive 파일 없음; `github_token.txt`와 PDF는 커밋하지 않음.
+- Commit/push: `871886b`를 `main`에 push.
+- Pages: `built`, 실제 URL HTTP 200.
+- 배포본 fallback 회귀: Contact·Games 존재, 상대 자산 확인, 375/768/1440px overflow 0, start/pause/resume/restart 확인, console errors 0.
+- Claude 배포 회귀: 정책상 미실행; 결과는 `CODEX_FALLBACK`으로 기록.
+- 최종 상태: `DEPLOYED`.

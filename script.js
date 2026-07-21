@@ -147,6 +147,25 @@
     snake.forEach((segment, index) => drawCell(segment, index === 0 ? '#8fe8d6' : '#32b8a5', 5));
   }
 
+  function createLetterRain() {
+    const rain = document.querySelector('#letter-rain');
+    if (!rain || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const poem = 'Signals fall like rain Ideas find a path Systems serve people Curiosity keeps moving';
+    const fragment = document.createDocumentFragment();
+    for (let index = 0; index < 78; index += 1) {
+      const letter = document.createElement('span');
+      letter.className = 'rain-letter';
+      letter.textContent = poem[index % poem.length];
+      letter.style.left = `${Math.random() * 100}%`;
+      letter.style.setProperty('--drift', `${Math.round((Math.random() - 0.5) * 90)}px`);
+      letter.style.animationDelay = `${Math.random() * -18}s`;
+      letter.style.animationDuration = `${12 + Math.random() * 12}s`;
+      letter.style.fontSize = `${0.58 + Math.random() * 0.38}rem`;
+      fragment.appendChild(letter);
+    }
+    rain.appendChild(fragment);
+  }
+
   document.addEventListener('keydown', (event) => {
     const keyMap = { ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down', ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' };
     if (event.key === ' ' || event.key === 'p' || event.key === 'P') { event.preventDefault(); togglePause(); return; }
@@ -157,4 +176,5 @@
   pauseButton.addEventListener('click', togglePause);
   restartButton.addEventListener('click', startGame);
   resetGame();
+  createLetterRain();
 })();

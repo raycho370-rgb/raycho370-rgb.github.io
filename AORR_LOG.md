@@ -39,6 +39,15 @@
 - Claude 배포 회귀: 정책상 미실행; 결과는 `CODEX_FALLBACK`으로 기록.
 - 최종 상태: `DEPLOYED`.
 
+## Step 10 - Google Scholar 및 배경 글자 비
+
+- 요청: Google Scholar 링크 추가 및 멋진 영문 글자 비 배경 적용 가능성 확인.
+- Act: `index.html`에 Scholar 링크와 장식 레이어 추가; `styles.css`에 배경 애니메이션·레이어·reduced-motion 처리 추가; `script.js`에 오리지널 짧은 문구 기반 글자 생성 추가.
+- 개인정보: 사용자가 제공한 공개 Scholar URL만 반영; 추가 개인정보 생성 없음.
+- Fallback 검증: Scholar href 정확성, rain letters 78개, 배경 z-index 0/콘텐츠 z-index 1, 375/768/1440px overflow 0, console errors 0.
+- Claude 회귀: 정책상 미실행; `CODEX_FALLBACK`으로 대체.
+- 상태: `DEPLOY_APPROVAL_REQUIRED`; commit·push·재배포는 보류.
+
 ## Step 9 - 변경 요청 재루프
 
 - 기준 commit: `2fc11ea`; Git 상태 clean; 마지막 정상 URL https://raycho370-rgb.github.io.

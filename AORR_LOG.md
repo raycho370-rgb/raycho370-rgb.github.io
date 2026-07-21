@@ -38,3 +38,23 @@
 - 배포본 fallback 회귀: Contact·Games 존재, 상대 자산 확인, 375/768/1440px overflow 0, start/pause/resume/restart 확인, console errors 0.
 - Claude 배포 회귀: 정책상 미실행; 결과는 `CODEX_FALLBACK`으로 기록.
 - 최종 상태: `DEPLOYED`.
+
+## Step 9 - 변경 요청 재루프
+
+- 기준 commit: `2fc11ea`; Git 상태 clean; 마지막 정상 URL https://raycho370-rgb.github.io.
+- Change Items: `CR-001`, `CR-002` 모두 placeholder이며 분류 `UNKNOWN`, 대상 파일 `[사람 확인 필요]`.
+- Claude: CLI `2.1.216`은 로그인 확인되나 실제 Sonnet 모델 `UNAVAILABLE`; 외부 Verifier 호출은 정책상 차단.
+- Act: 코드 수정 없음. `MEMORY.md`에 실행 모드·현재 commit·Git 상태·rollback 기준과 `HITL_REQUIRED` 기록.
+- Observe: 테스트·재현·회귀 검증 없음.
+- Blocker: 실제 변경 요구, 기대 동작, 기기/브라우저/재현 방법, 참고 자료와 사용 권한이 없음.
+- 다음 상태: CR-001 요구사항 명확화 → CR-002 자료 확정 후에만 READY로 재개.
+
+## Step 9 재루프 - CR-001 공개 연락처
+
+- HITL 입력: 사용자가 `sungcho57@gmail.com`을 공개 연락처로 제공.
+- Act: `index.html` Contact 영역에 정확한 `mailto:` 링크 추가; `styles.css` 링크 스타일 보완; `CHANGE_REQUEST.md`를 CONTENT 완료 상태로 갱신.
+- Fallback 검증: Contact href/text, Games 유지, 375/768/1440px overflow 0, console errors 0.
+- Commit/push: `37e1f6f`를 `main`에 push.
+- Pages: `built`, 실제 URL HTTP 200, 이메일 링크 반영 확인.
+- Claude 회귀: 정책상 미실행; `CODEX_FALLBACK`으로 대체.
+- 최종 상태: `DEPLOYED`.

@@ -47,6 +47,20 @@
 - Claude 회귀: 정책상 미실행; `CODEX_FALLBACK`으로 대체.
 - 상태: `DEPLOY_APPROVAL_REQUIRED`; phrase 변경은 commit·push·재배포 전.
 
+## 추가 요청 - 무지개 H1 애니메이션
+
+- 요청: `Principal AI Platform Engineer shaping reliable, human-centered AI systems.`에 무지개 색상 흐름 애니메이션 적용 가능성 확인.
+- Act: `index.html`에 `rainbow-headline` class 추가; `styles.css`에 rainbow gradient animation과 reduced-motion 정지 처리 추가.
+- Fallback 검증: animation name `rainbow-flow`, text clip 확인, SC 로고 0개, phrase 18개, Scholar 링크 유지, 375/768/1440px overflow 0, console errors 0.
+- 상태: `DEPLOY_APPROVAL_REQUIRED`; 현재 로컬 변경은 commit·push·재배포 전.
+
+## 추가 요청 - 좌측 상단 SC 로고 제거
+
+- Act: `index.html`의 상단 `brand-mark`만 제거하고 `styles.css`의 미사용 로고 스타일을 삭제.
+- 유지: 프로필 카드의 별도 `SC` 식별자는 유지.
+- Fallback 검증: 상단 브랜드 텍스트 `Sungrae Cho`, `brand-mark` 0개, phrase 18개, Scholar 링크 유지, 375/768/1440px overflow 0, console errors 0.
+- 상태: `DEPLOY_APPROVAL_REQUIRED`.
+
 ## Step 10 - Google Scholar 및 배경 글자 비
 
 - 요청: Google Scholar 링크 추가 및 멋진 영문 글자 비 배경 적용 가능성 확인.

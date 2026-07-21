@@ -150,12 +150,12 @@
   function createLetterRain() {
     const rain = document.querySelector('#letter-rain');
     if (!rain || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const poem = 'Signals fall like rain Ideas find a path Systems serve people Curiosity keeps moving';
+    const phrases = ['Build with care', 'Ideas find a path', 'Systems serve people', 'Curiosity keeps moving', 'Signals find meaning', 'Make space for wonder', 'Reliable by design', 'Keep learning forward', 'Small steps compound'];
     const fragment = document.createDocumentFragment();
-    for (let index = 0; index < 78; index += 1) {
+    for (let index = 0; index < 18; index += 1) {
       const letter = document.createElement('span');
-      letter.className = 'rain-letter';
-      letter.textContent = poem[index % poem.length];
+      letter.className = 'rain-phrase';
+      letter.textContent = phrases[index % phrases.length];
       letter.style.left = `${Math.random() * 100}%`;
       letter.style.setProperty('--drift', `${Math.round((Math.random() - 0.5) * 90)}px`);
       letter.style.animationDelay = `${Math.random() * -18}s`;

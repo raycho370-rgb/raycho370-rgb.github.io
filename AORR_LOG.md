@@ -39,6 +39,14 @@
 - Claude 배포 회귀: 정책상 미실행; 결과는 `CODEX_FALLBACK`으로 기록.
 - 최종 상태: `DEPLOYED`.
 
+## Step 10 재루프 - phrase 배경
+
+- 요청: 단일 알파벳이 아니라 단어/짧은 phrase가 떨어지는 배경으로 변경.
+- Act: `styles.css`의 rain 스타일을 phrase용으로 변경하고 `script.js`의 생성 단위를 18개 phrase로 변경.
+- Fallback 검증: phrase 18개, 단일 문자 0개, Scholar 링크 유지, 375/768/1440px overflow 0, console errors 0.
+- Claude 회귀: 정책상 미실행; `CODEX_FALLBACK`으로 대체.
+- 상태: `DEPLOY_APPROVAL_REQUIRED`; phrase 변경은 commit·push·재배포 전.
+
 ## Step 10 - Google Scholar 및 배경 글자 비
 
 - 요청: Google Scholar 링크 추가 및 멋진 영문 글자 비 배경 적용 가능성 확인.
@@ -47,6 +55,13 @@
 - Fallback 검증: Scholar href 정확성, rain letters 78개, 배경 z-index 0/콘텐츠 z-index 1, 375/768/1440px overflow 0, console errors 0.
 - Claude 회귀: 정책상 미실행; `CODEX_FALLBACK`으로 대체.
 - 상태: `DEPLOY_APPROVAL_REQUIRED`; commit·push·재배포는 보류.
+
+## Step 10 배포 완료
+
+- Commit/push: `f5f71f9`를 `main`에 push.
+- Pages: `built`, 실제 URL HTTP 200.
+- 배포본에서 Scholar 링크와 letter-rain 레이어 반영 확인.
+- 최종 상태: `DEPLOYED`.
 
 ## Step 9 - 변경 요청 재루프
 
